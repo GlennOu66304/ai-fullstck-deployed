@@ -6,37 +6,38 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider    = "mysql"
+  url         = env("DATABASE_URL")
+relationMode = "prisma"
+
 }
 
 model User {
-  id String @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email String @unique  
+  id             String         @id @default(uuid())
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  email          String         @unique
+  // one user can have many journals 
+  journalEntries JournalEntry[]
 
-  // Journal Journal[]
-
+  clerkId String @unique
 }
 
-model Journal{
-  id String @id @default(uuid())
+model JournalEntry {
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  title String
-  content String
-  // author User @relation(fields: [id], references: [id])
- 
+  content String @db.Text
+  // one journal only can have one user, athisnd this journal is associate with user
+  userId  String
+  user    User?  @relation(fields: [userId], references: [id])
 }
 
-model Analysis{
-  id String @id @default(uuid())
+model Analysis {
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  title String
   content String
   // analysis Journal @relation(fields: [analysisid], references: [id])
 }

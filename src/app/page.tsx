@@ -1,12 +1,12 @@
-"use client"
+// "use client"
 import Link from "next/link";
 
-import { useAuth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 export default function  Home(
 
 ) {
-  const {userId} = useAuth();
-  console.log(userId);
+  const {userId} = auth();
+  // console.log(userId);
   const href = userId ? "/journal":"/new-user";
   return (
     <main>

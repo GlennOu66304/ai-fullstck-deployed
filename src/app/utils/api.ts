@@ -18,3 +18,21 @@ export const buildNewUser = async ()=>{
     return data;
   }
 }
+
+export const updateJournalEntry = async (id,content)=>{
+  // console.log({id:id,content:content})
+    const response = await fetch(endpoins(`/api/journal/${id}`),{
+        method:"PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content }),
+        
+    })
+  
+  if(response.ok){
+    const data= await response.json()
+    // console.log(data)
+    return data;
+  }
+}

@@ -32,6 +32,8 @@ model JournalEntry {
   // one journal only can have one user, athisnd this journal is associate with user
   userId  String
   user    User?  @relation(fields: [userId], references: [id])
+  @@unique([userId,id])
+
 }
 
 model Analysis {

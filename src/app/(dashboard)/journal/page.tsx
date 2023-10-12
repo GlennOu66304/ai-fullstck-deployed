@@ -3,6 +3,7 @@ import EnttrieCard from "@/components/entryCard";
 import NewEntry from "@/components/newEntry";
 import { databseUserId } from "../../utils/userId";
 import Link from "next/link";
+import { analysis } from "../../utils/ai";
 const loadEntries = async () => {
  
   const Enttries = await prisma.journalEntry.findMany({
@@ -16,6 +17,7 @@ const loadEntries = async () => {
 const Journal = async () => {
   const entries = await loadEntries();
   // console.log(entries);
+  await analysis("make a ice cream recept for me")
   return (
     <div className="flex flex-wrap justify-center gap-4">
       <div className="w-full md:w-1/3">

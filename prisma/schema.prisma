@@ -42,4 +42,9 @@ model Analysis {
   updatedAt DateTime @updatedAt
   content String
   // analysis Journal @relation(fields: [analysisid], references: [id])
+
+  mood String
+  summary String @db.Text
+  color String
+  negative Boolean
 }

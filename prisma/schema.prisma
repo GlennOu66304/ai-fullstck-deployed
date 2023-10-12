@@ -33,6 +33,8 @@ model JournalEntry {
   userId  String
   user    User?  @relation(fields: [userId], references: [id])
   @@unique([userId,id])
+  
+  analysis Analysis?
 
 }
 
@@ -42,6 +44,10 @@ model Analysis {
   updatedAt DateTime @updatedAt
   content String
   // analysis Journal @relation(fields: [analysisid], references: [id])
+
+  journalId String
+  journalEntry JournalEntry? @relation(fields: [journalId], references: [id])
+  @@unique([journalId])
 
   mood String
   summary String @db.Text

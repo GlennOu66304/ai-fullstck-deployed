@@ -17,7 +17,7 @@ const loadEntries = async () => {
 const Journal = async () => {
   const entries = await loadEntries();
   // console.log(entries);
-  await analysis("make a ice cream recept for me")
+  await analysis("make a ice cream recept for me, I'm hapay, and drink a coffee also")
   return (
     <div className="flex flex-wrap justify-center gap-4">
       <div className="w-full md:w-1/3">

@@ -42,8 +42,6 @@ model Analysis {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  content String
-  // analysis Journal @relation(fields: [analysisid], references: [id])
 
   journalId String
   journalEntry JournalEntry? @relation(fields: [journalId], references: [id])
@@ -53,4 +51,5 @@ model Analysis {
   summary String @db.Text
   color String
   negative Boolean
+  subject String
 }

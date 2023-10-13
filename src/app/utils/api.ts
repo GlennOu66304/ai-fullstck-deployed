@@ -6,7 +6,7 @@ const endpoins = (path)=>{
 }
 
 
-export const buildNewUser = async ()=>{
+export const buildNewEntry = async ()=>{
 
     const response = await fetch(endpoins("/api/journal"),{
         method:"POST"
@@ -14,7 +14,7 @@ export const buildNewUser = async ()=>{
   
   if(response.ok){
     const data=response.json()
-    console.log(data)
+    // console.log(data)
     return data;
   }
 }

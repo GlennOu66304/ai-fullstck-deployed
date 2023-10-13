@@ -1,8 +1,11 @@
 import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { z } from "zod";
-import { StructuredOutputParser } from "langchain/output_parsers";
-import { RunnableSequence } from "langchain/schema/runnable";
+import {
+  OutputFixingParser,
+  StructuredOutputParser,
+} from "langchain/output_parsers";
+
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
     mood: z
@@ -27,19 +30,30 @@ const getPrompt = async (content) => {
   const format_instructions = parser.getFormatInstructions();
   const prompt = new PromptTemplate({
     template:
-      "Analyze the following journal entry. Follow the intrusctions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
+      "Analyze the following journal entry. Follow the intrusctions and format your response to match the format instructions, No Matter What! \n{format_instructions}\n{entry}",
     inputVariables: ["entry"],
     partialVariables: { format_instructions },
   });
   const input = await prompt.format({ entry: content });
-  //   console.log(input);
   return input;
 };
 
-export const analysis = async (entry) => {
+export const analysis2 = async (entry) => {
   const prompt = await getPrompt(entry);
-  const model = new OpenAI();
-  const respnse = await model.call(prompt);
-  // log the resule
-  console.log(respnse);
+  //  console.log(prompt)
+  const model = new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" });
+  const response = await model.call(prompt);
+  //   // log the resule
+  // console.log(response);
+  try {
+    return parser.parse(response);
+  } catch (error) {
+    // console.log(error)
+    const fixParser = OutputFixingParser.fromLLM(
+      new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" }),
+      parser
+    );
+    const fix = await fixParser.parse(response);
+    return fix;
+  }
 };

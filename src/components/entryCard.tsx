@@ -1,4 +1,4 @@
-const EnttrieCard = (entry2) => {
+const EnttryCard = (entry2) => {
   const date = new Date(entry2.entry2.createdAt).toDateString();
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
@@ -9,4 +9,4 @@ const EnttrieCard = (entry2) => {
   );
 };
 
-export default EnttrieCard;
+export default EnttryCard;

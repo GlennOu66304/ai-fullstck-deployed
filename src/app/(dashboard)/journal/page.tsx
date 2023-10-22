@@ -1,18 +1,24 @@
 import { prisma } from "../../utils/db";
-import EnttrieCard from "@/components/entryCard";
+import EntryCard from "@/components/entryCard";
 import NewEntry from "@/components/newEntry";
 import { databseUserId } from "../../utils/userId";
 import Link from "next/link";
 
 const loadEntries = async () => {
- const  id = await databseUserId()
-  const Enttries = await prisma.journalEntry.findMany({
-    where: {
-      userId: id,
-      // userId: 1,
-    },
-  });
-  return Enttries;
+  try {
+    const  id = await databseUserId()
+    const Entries = await prisma.journalEntry.findMany({
+      where: {
+        userId: id,
+      },
+    });
+    return Entries;
+    
+  } catch (error) {
+    console.log(error)
+    return []
+  }
+
 };
 
 const Journal = async () => {
@@ -25,11 +31,11 @@ const Journal = async () => {
         <NewEntry />
       </div>
 
-      {entries.map((entry) => {
+      {entries.length > 0 && entries.map((entry) => {
         return (
           <div key={entry.id}>
             <Link href={`/journal/${entry.id}`}>
-              <EnttrieCard className="w-full md:w-1/3" entry2={entry} />
+              <EntryCard className="w-full md:w-1/3" entry2={entry} />
             </Link>
           </div>
         );

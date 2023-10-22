@@ -5,9 +5,11 @@ import { databseUserId } from "../../utils/userId";
 import Link from "next/link";
 
 const loadEntries = async () => {
+ const  id = await databseUserId()
   const Enttries = await prisma.journalEntry.findMany({
     where: {
-      userId: databseUserId(),
+      userId: id,
+      // userId: 1,
     },
   });
   return Enttries;

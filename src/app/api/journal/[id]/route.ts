@@ -1,5 +1,6 @@
 import { prisma } from "@/app/utils/db";
 import { databseUserId } from "@/app/utils/userId";
+import { analysis2 } from "@/app/utils/ai";
 import { NextResponse } from "next/server";
 
 export const PATCH = async (request, {params}) => {
@@ -20,5 +21,20 @@ export const PATCH = async (request, {params}) => {
     },
   });
 
+  const analysis = await analysis2(updateData.content);
+
+  await prisma.analysis.upsert(
+    {
+      where: {
+        journalId: updateData.id,
+      },
+      update: analysis,
+      create: {
+        journalId: updateData.id,
+       ...analysis,
+      
+      },
+    }
+  )
   return NextResponse.json({data:updateData}) ;
 };

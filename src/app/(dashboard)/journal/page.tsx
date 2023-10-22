@@ -3,7 +3,7 @@ import EnttrieCard from "@/components/entryCard";
 import NewEntry from "@/components/newEntry";
 import { databseUserId } from "../../utils/userId";
 import Link from "next/link";
-import { analysis } from "../../utils/ai";
+
 const loadEntries = async () => {
   const Enttries = await prisma.journalEntry.findMany({
     where: {

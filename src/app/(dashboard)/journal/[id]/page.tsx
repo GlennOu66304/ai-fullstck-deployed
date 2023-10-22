@@ -21,32 +21,15 @@ const entryDetail = async ({ params }) => {
 
 const EntryDetailPage = async ({ params }) => {
   const entry = await entryDetail({ params });
-  const {mood,summary,negative,color} = entry.analysis
-  // console.log(entry.analysis)
-  const list = [
-    {
-      name: "mood",
-      content: mood,
-    },
-    {
-      name: "summary",
-      content: summary,
-    },
-    {
-      name: "negative",
-      content: negative ? "True" : "False",
-    },
-  
-  ]
-  return (
-    <div className="grid grid-cols-2 gap-5">
-      <div>
-        {" "}
-        <h1> this is the {params.id} page</h1>
-        <Editor entry={entry} />
-      </div>
 
-      <div className="flex justify-end flex-col">
+  return (
+    <div className="h-full w-full">
+  
+      
+        <Editor entry={entry} />
+    
+
+      {/* <div className="flex justify-end flex-col">
         <h1 style={{backgroundColor:color}}> this is the analysis sections</h1>
  {
   list.map((item) => {
@@ -60,7 +43,7 @@ const EntryDetailPage = async ({ params }) => {
   )
 }
 
-      </div>
+      </div> */}
     </div>
   );
 };

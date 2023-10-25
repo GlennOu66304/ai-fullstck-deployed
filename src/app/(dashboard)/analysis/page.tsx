@@ -1,14 +1,28 @@
 // first load the enrty of the loogind user
 // then load the list of the entry
 
-const loadEntries = ()=>{
-        
-}
-
+import { prisma } from '@/app/utils/db'
+import Chart from '../../../components/chart'
+import {databseUserId} from '../../utils/userId'
 const Analysis =  async ()=>{
-    const entries = await loadEntries()
+  const {id} = await databseUserId()
+  console.log(id)
+  const analysisOfuser = await prisma.analysis.findMany({
+    where:{
+      userId:id
+    },
+    select:{
+      createdAt:true,
+      sentimentScore:true,
+    }
+  })
+  // console.log(analysisOfuser)
     return (
-       <h2>this is the Analyis page</h2>
+        <div>
+            <h1>this is the analysie page</h1>
+         <Chart data={analysisOfuser}/>
+        </div>
+   
     )
 }
 

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,8 +15,8 @@ model User {
   email          String         @unique
   // one user can have many journals 
   journalEntries JournalEntry[]
-
-  clerkId String @unique
+  analysis       Analysis[]
+  clerkId        String         @unique
 }
 
 model JournalEntry {
@@ -30,9 +27,9 @@ model JournalEntry {
   content String @db.Text
   // one journal only can have one user, athisnd this journal is associate with user
   userId  String
-  user    User?  @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
 
-  analysis Analysis? 
+  analysis Analysis?
 
   @@unique([userId, id])
 }
@@ -42,14 +39,17 @@ model Analysis {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  journalId    String
-  journalEntry JournalEntry? @relation(fields: [journalId], references: [id],onDelete: Cascade)
-
-  mood     String
-  summary  String  @db.Text
-  color    String
-  negative Boolean
-  subject  String
+  journalId      String
+  journalEntry   JournalEntry @relation(fields: [journalId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id])
+  mood           String
+  summary        String        @db.Text
+  color          String
+  negative       Boolean
+  subject        String
+  sentimentScore Float
 
   @@unique([journalId])
+  @@index([userId])
 }

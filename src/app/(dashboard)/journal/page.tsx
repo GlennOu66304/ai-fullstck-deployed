@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const loadEntries = async () => {
   try {
-    const  id = await databseUserId()
+    const  {id} = await databseUserId()
     const Entries = await prisma.journalEntry.findMany({
       where: {
         userId: id,

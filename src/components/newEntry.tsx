@@ -6,7 +6,7 @@ const NewEntry = () => {
   const router = useRouter();
   const createNewEntry = async () => {
     const data = await buildNewEntry();
-    // console.log(data);
+    console.log(data);
     router.push(`journal/${data.data.id}`);
   };
 

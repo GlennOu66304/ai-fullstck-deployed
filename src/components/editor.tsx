@@ -53,7 +53,7 @@ const Editor = (entry) => {
         </h1>
         {list.map((item) => {
           return (
-            <div className="mb-5">
+            <div key={item.name} className="mb-5">
               <span>{item.name}:</span>
               <span>{item.content}</span>
             </div>

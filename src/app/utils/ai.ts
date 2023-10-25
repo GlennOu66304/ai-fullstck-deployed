@@ -8,6 +8,7 @@ import {
 
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
+    sentimentScore: z.number().describe("On a scale from 0 to 10, please rate it,0 represents an xtremely negative sentiment,5 represents a **neutral sentiment, and 10 represents the **most positive** sentiment."),
     mood: z
       .string()
       .describe("the mood of the person who wrote the journal entry."),

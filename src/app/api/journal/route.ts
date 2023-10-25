@@ -17,13 +17,15 @@ const Analyze = await analysis2(newEntry.content)
  
 await prisma.analysis.create({
     data:{
-      
+      userId:id,
       journalId: newEntry.id,
-      mood:Analyze.mood,
-      subject:Analyze.subject,
-      negative:Analyze.negative,
-      summary:Analyze.summary,
-      color:Analyze.color,
+      ...Analyze
+      // mood:Analyze.mood,
+      // subject:Analyze.subject,
+      // negative:Analyze.negative,
+      // summary:Analyze.summary,
+      // color:Analyze.color,
+      // sentimentScore:Analyze.sentimentScore,
     }
 
   })

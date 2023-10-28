@@ -36,3 +36,24 @@ export const updateJournalEntry = async (id,content)=>{
     return data;
   }
 }
+
+
+export const getQaData =  async ( entries,question) => {
+  // console.log(entries,question);
+  // console.log(JSON.stringify({ entries, question }));
+  const response = await fetch(endpoins("/api/qa"), {
+    method: "POST",
+    // headers: {
+    //   "Content-Type": "application/json",
+    // },
+    body: JSON.stringify({ entries, question }),
+  });
+  if (response.ok) {
+    const responseData = await response.json();
+    return responseData;
+  } else {
+    throw new Error("Failed to post QA data");
+  }
+
+
+};

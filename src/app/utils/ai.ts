@@ -5,10 +5,18 @@ import {
   OutputFixingParser,
   StructuredOutputParser,
 } from "langchain/output_parsers";
+import { Document } from "langchain/document";
+import { loadQARefineChain } from "langchain/chains";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
-    sentimentScore: z.number().describe("On a scale from 0 to 10, please rate it,0 represents an xtremely negative sentiment,5 represents a **neutral sentiment, and 10 represents the **most positive** sentiment."),
+    sentimentScore: z
+      .number()
+      .describe(
+        "On a scale from 0 to 10, please rate it,0 represents an xtremely negative sentiment,5 represents a **neutral sentiment, and 10 represents the **most positive** sentiment."
+      ),
     mood: z
       .string()
       .describe("the mood of the person who wrote the journal entry."),
@@ -57,4 +65,32 @@ export const analysis2 = async (entry) => {
     const fix = await fixParser.parse(response);
     return fix;
   }
+};
+
+export const qaAnswer = async (entries, question) => {
+  const array = entries.entries2;
+  // console.log(Array.isArray(array));
+  const doc = array.map(
+    (entry) =>
+      new Document({
+        pageContent: entry.content,
+        metadata: {
+          createAt: entry.createdAt,
+          id: entry.id,
+        },
+      })
+  );
+
+  const embed = new OpenAIEmbeddings();
+  const store = await MemoryVectorStore.fromDocuments(doc,embed);
+  // the order must be doc and embed
+  const revelance = await store.similaritySearch(question);
+  const model = new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" });
+  const chain = loadQARefineChain(model);
+  const res = await chain.call({
+    input_documents: revelance,
+    question: question,
+  });
+  // console.log(res);
+  return res.output_text;
 };

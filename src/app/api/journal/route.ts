@@ -31,3 +31,4 @@ await prisma.analysis.create({
   })
   return NextResponse.json({ data: newEntry });
 };
+

@@ -6,7 +6,7 @@ import Chart from '../../../components/chart'
 import {databseUserId} from '../../utils/userId'
 const Analysis =  async ()=>{
   const {id} = await databseUserId()
-  console.log(id)
+
   const analysisOfuser = await prisma.analysis.findMany({
     where:{
       userId:id
@@ -19,7 +19,6 @@ const Analysis =  async ()=>{
   // console.log(analysisOfuser)
     return (
         <div>
-            <h1>this is the analysie page</h1>
          <Chart data={analysisOfuser}/>
         </div>
    
